@@ -1,4 +1,5 @@
 package com.example.SpringBootJPA.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -11,28 +12,36 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false) // Ensures the name is not null in the database
     private String name;
+
+    @Column(nullable = false, unique = true) // Ensures uniqueness of email
     private String email;
+
+    @Column(nullable = false)
     private String country;
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonBackReference  // Prevent infinite recursion
     private List<Order> orders;
 
-
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setEmail(String email){
+        this.email = email;
+    }
     public void setCountry(String country) {
         this.country = country;
     }
     public String getCountry() {
         return country;
     }
-    public void setName(){
-        this.name = name;
-    }
+
     public String getName(){
         return name;
     }
-    public void setEmail(){
-        this.email = email;
-    }
+
     public String getEmail(){
         return email;
     }

@@ -1,5 +1,6 @@
 package com.example.SpringBootJPA.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonBackReference  // Prevent infinite recursion
     private Customer customer;
 
     public Order() {}
